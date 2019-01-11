@@ -1,0 +1,49 @@
+.header-container input{
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    display:flex;
+    margin:auto;
+    height:25px;
+    border-radius:15px;
+    border:none;
+    background:#562a66;
+    color:white;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color:white;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color:white;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: white;
+}
+
+.header-container input:focus{
+  outline:none;
+
+}
+
+.header-container{
+    margin-top: 50px;
+    display:flex;
+    position:relative;
+}
+
+.header-container i{
+    position:absolute;
+    right:0px;
+    margin-right:45px;
+    padding:0;
+    color:white;
+    font-size: 30px;
+    transition: all .3s ease;
+}
+
+.header-container i:hover{
+    transform: scale(1.15);
+}

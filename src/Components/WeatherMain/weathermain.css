@@ -1,0 +1,14 @@
+.weather-main{
+    padding: 60px 0;
+    display:flex;
+}
+
+.weather-main .temperature{
+    width:100%;
+    display:flex;
+    justify-content: center;
+    font-size:120px;
+    color:white;
+    background:white;
+    height:400px;
+}

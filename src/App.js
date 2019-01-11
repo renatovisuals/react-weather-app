@@ -1,26 +1,66 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { USERID } from './config';
+import Header from './Components/Header/header';
+import Title from './Components/Title/title';
+import WeatherMain from './Components/WeatherMain/WeatherMain';
+import './app.css';
 
 class App extends Component {
+
+    state = {
+        data:'',
+        configuredData:''
+    }
+
+    componentWillMount(){
+     this.getData()
+    }
+
+    getData = () => {
+      fetch("https://ipapi.co/json")
+      .then((response)=>response.json())
+      .then((data)=>{
+      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Fort+Worth&units=imperial&APPID=${USERID}`)
+      .then((response)=>response.json())
+      .then((data)=> {
+          this.setState({
+              data: data.list
+          })
+
+      })
+      })
+    }
+
+
+
+    convertUNIXTime = (UNIX) => {
+      return UNIX * 1000;
+    }
+
+    getDay = (date) => {
+      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+      const day = new Date(date).getDay()
+      return days[day];
+    }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+          <div className = "app"
+            style = {{
+              backgroundImage:"url('./images/fog.jpg')",
+              backgroundSize:"cover",
+              backgroundRepeat:"no-repeat"
+            }}
+            >
+                <div className="gradient">
+                    <Header/>
+                    <div className="content-container">
+                        <Title/>
+                        <WeatherMain/>
+                    </div>
+
+                </div>
+          </div>
     );
   }
 }
