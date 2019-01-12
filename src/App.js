@@ -3,6 +3,7 @@ import { USERID } from './config';
 import Header from './Components/Header/header';
 import Title from './Components/Title/title';
 import WeatherMain from './Components/WeatherMain/WeatherMain';
+import WeatherDetails from './Components/WeatherDetails/WeatherDetails';
 import './app.css';
 
 class App extends Component {
@@ -57,9 +58,13 @@ class App extends Component {
                     <div className="content-container">
                         <Title/>
                         <WeatherMain/>
+                        <hr/>
+                        <WeatherDetails/>
                     </div>
 
+
                 </div>
+
           </div>
     );
   }

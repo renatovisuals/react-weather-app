@@ -1,0 +1,26 @@
+.weather-details{
+    color:white;
+    font-weight: 100;
+    display:flex;
+    justify-content: space-between;
+    padding-top:34px;
+}
+
+.weather-details i{
+    color:white;
+    font-size: 23px;
+}
+
+.weather-details .description, .weather-details .data{
+    display:block;
+    font-size: 18px;
+}
+
+.weather-details .description{
+  margin: 10px 0;
+
+}
+
+.weather-details div{
+    text-align: center;
+}

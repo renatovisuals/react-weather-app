@@ -1,12 +1,13 @@
 .header-container input{
     font-family: 'Roboto', sans-serif;
     text-align: center;
+    font-weight: 100;
     display:flex;
     margin:auto;
     height:25px;
     border-radius:15px;
     border:none;
-    background:#562a66;
+    background:#753d8a;
     color:white;
 }
 

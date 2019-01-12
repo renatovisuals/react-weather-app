@@ -44,3 +44,7 @@ body{
   .content-container{
     padding:30px;
   }
+
+  hr{
+    opacity:.4;
+  }
