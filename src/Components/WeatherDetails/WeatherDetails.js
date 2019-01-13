@@ -1,27 +1,54 @@
-import React from 'react';
+import React, {Component} from 'react';
 import './weather-details.css';
 
-const WeatherDetails = () => {
+class WeatherDetails extends Component {
 
-    return (
-      <div className="weather-details">
-          <div>
-            <i className="wi wi-humidity"></i>
-            <span className="description">Humidity</span>
-            <span className="data">20%</span>
-          </div>
-          <div>
-            <i className="wi wi-humidity"></i>
-            <span className="description">Humidity</span>
-            <span className="data">20%</span>
-          </div>
-          <div>
-            <i className="wi wi-humidity"></i>
-            <span className="description">Humidity</span>
-            <span className="data">20%</span>
-          </div>
-      </div>
-    )
+    state = {
+        details: [
+            {
+              fontAwesome:false,
+              icon: 'wi wi-humidity',
+              description: 'humidity',
+              data: "20%"
+            },
+            {
+              fontAwesome:false,
+              icon: 'wi wi-humidity',
+              description: 'humidity',
+              data: "20%"
+            },
+            {
+              fontAwesome:false,
+              icon: 'wi wi-humidity',
+              description: 'humidity',
+              data: "20%"
+            }
+        ]
+    }
+
+    renderWeather = (fontAwesome) =>{
+
+        return (
+            !fontAwesome ?
+            this.state.details.map((item) =>(
+                <div>
+                  <i className={item.icon}></i>
+                  <span className="description">{item.description}</span>
+                  <span className="data">{item.data}</span>
+                </div>
+            ))
+            :null
+        )
+    }
+
+    render(){
+      return (
+        <div className="weather-details">
+            {this.renderWeather(false)}
+        </div>
+
+      )
+    }
 
 }
 
