@@ -30,8 +30,8 @@ class WeatherDetails extends Component {
 
         return (
             !fontAwesome ?
-            this.state.details.map((item) =>(
-                <div>
+            this.state.details.map((item,i) =>(
+                <div key={i}>
                   <i className={item.icon}></i>
                   <span className="description">{item.description}</span>
                   <span className="data">{item.data}</span>

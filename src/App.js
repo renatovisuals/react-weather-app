@@ -9,42 +9,47 @@ import './app.css';
 class App extends Component {
 
     state = {
-        data:'',
-        configuredData:''
+        data:null,
+        cityQueryString:''
     }
 
     componentWillMount(){
-     this.getData()
+        this.loadHomeCityWeather();
     }
 
-    getData = () => {
+    loadHomeCityWeather = () => {
       fetch("https://ipapi.co/json")
       .then((response)=>response.json())
       .then((data)=>{
-      fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Fort+Worth&units=imperial&APPID=${USERID}`)
+        const cityString = this.setCityString(data.city)
+        this.getWeatherData(cityString);
+      })
+    }
+
+
+    getWeatherData = (cityString) => {
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityString}&units=imperial&APPID=${USERID}`)
       .then((response)=>response.json())
-      .then((data)=> {
-          this.setState({
-              data: data.list
-          })
-
-      })
+      .then((data)=> {this.setState({data:data})
+      console.log(this.state);
       })
     }
 
 
-
-    convertUNIXTime = (UNIX) => {
-      return UNIX * 1000;
-    }
-
-    getDay = (date) => {
-      const days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-      const day = new Date(date).getDay()
-      return days[day];
+    setCityString = (string) => {
+        string = string.trim();
+        let newString = Array.from(string);
+        for(let i = 0; i<newString.length; i++){
+          if(newString[i]===" "){
+            newString[i]="+";
+          }
+        }
+        return newString.join("");
     }
 
   render() {
+    const data = this.state.data;
+    if(!this.state.data){return null};
     return (
           <div className = "app"
             style = {{
@@ -56,15 +61,12 @@ class App extends Component {
                 <div className="gradient">
                     <Header/>
                     <div className="content-container">
-                        <Title/>
-                        <WeatherMain/>
+                        <Title city = {data.name}/>
+                        <WeatherMain temperature = {data.main.temp} weather = {data.weather[0]}/>
                         <hr/>
                         <WeatherDetails/>
                     </div>
-
-
                 </div>
-
           </div>
     );
   }
