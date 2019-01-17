@@ -10,7 +10,8 @@ class App extends Component {
 
     state = {
         data:null,
-        cityQueryString:''
+        cityQueryString:'',
+        backgroundImage:''
     }
 
     componentWillMount(){
@@ -26,7 +27,6 @@ class App extends Component {
       })
     }
 
-
     getWeatherData = (cityString) => {
       fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityString}&units=imperial&APPID=${USERID}`)
       .then((response)=>response.json())
@@ -34,7 +34,6 @@ class App extends Component {
       console.log(this.state);
       })
     }
-
 
     setCityString = (string) => {
         string = string.trim();
@@ -47,16 +46,43 @@ class App extends Component {
         return newString.join("");
     }
 
+    renderBackgroundImage = () => {
+        const id = this.state.data.weather[0].id;
+        let url = "./images/"
+
+        if(id >= 200 && id <300){
+            url += "thunderstorm.jpg";
+        }else if( id >= 300 && id <500){
+            url += "drizzle.jpg";
+        }else if( id >= 500 && id <600){
+            url += "rain.jpg";
+        }else if( id >= 600 && id <700){
+            url += "snow.jpg";
+        }else if( id >= 700 && id <800){
+            url += "fog.jpg";
+        }else if( id === 800){
+            url += "clear.jpg";
+        }else{
+            url += "clouds.jpg";
+        }
+
+        console.log(url);
+
+        return {
+          'backgroundImage':`url("${url}")`,
+          'backgroundSize':"cover",
+          'backgroundRepeat':"no-repeat"
+        }
+    }
+
   render() {
+
     const data = this.state.data;
     if(!this.state.data){return null};
+    this.renderBackgroundImage()
     return (
           <div className = "app"
-            style = {{
-              backgroundImage:"url('./images/fog.jpg')",
-              backgroundSize:"cover",
-              backgroundRepeat:"no-repeat"
-            }}
+            style = {this.renderBackgroundImage()}
             >
                 <div className="gradient">
                     <Header/>

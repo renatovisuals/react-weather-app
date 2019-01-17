@@ -8,23 +8,23 @@ const WeatherMain = (props) => {
         const icon = props.weather.icon;
         let iconStr = "wi wi-";
         switch(icon){
-            case('01d'): iconStr += "day-sunny"
+            case('01d'):iconStr += "day-sunny"
             break;
-            case('02d'): iconStr += "day-cloudy"
+            case('02d'):iconStr += "day-cloudy"
             break;
-            case('03d'): iconStr += "cloud"
+            case('03d'):iconStr += "cloud"
             break;
-            case('04d'): iconStr += "cloudy"
+            case('04d'):iconStr += "cloudy"
             break;
-            case('09d'): iconStr += "day-showers"
+            case('09d'):iconStr += "day-showers"
             break;
-            case('10d'): iconStr += "day-rain"
+            case('10d'):iconStr += "day-rain"
             break;
-            case('11d'): iconStr += "day-thunderstorm"
+            case('11d'):iconStr += "day-thunderstorm"
             break;
-            case('13d'): iconStr += "day-snow"
+            case('13d'):iconStr += "day-snow"
             break;
-            case('50d'): iconStr += "dust"
+            case('50d'):iconStr += "dust"
             break;
 
             case('01n'): iconStr += "night-clear"
