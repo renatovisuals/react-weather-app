@@ -10,7 +10,7 @@ class Header extends Component{
         return (
             <div className ="header-container">
                 <input type ='text' placeholder="enter a city" onKeyDown ={(e)=>{this.handleKeyDown(e)}}/>
-                <i className = 'wi wi-celsius'> </i>
+                <i className = 'wi wi-celsius' onClick = {()=>{this.props.toggleUnits()}}> </i>
             </div>
           )
     }

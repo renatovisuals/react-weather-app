@@ -11,7 +11,8 @@ class App extends Component {
     state = {
         data:null,
         cityQueryString:'',
-        backgroundImage:''
+        backgroundImage:'',
+        units:'imperial'
     }
 
     componentWillMount(){
@@ -24,11 +25,14 @@ class App extends Component {
       .then((data)=>{
         const cityString = this.setCityString(data.city)
         this.getWeatherData(cityString);
+        this.setState({
+          cityQueryString:cityString
+        })
       })
     }
 
     getWeatherData = (cityString) => {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityString}&units=imperial&APPID=${USERID}`)
+      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityString}&units=${this.state.units}&APPID=${USERID}`)
       .then((response)=>response.json())
       .then((data)=> {this.setState({data:data})
       console.log(this.state);
@@ -75,6 +79,15 @@ class App extends Component {
         }
     }
 
+    toggleUnits = () =>{
+       let units = this.state.units;
+       units === "imperial" ? units = "metric" : units = "imperial";
+       this.setState({
+         units
+       })
+       this.getWeatherData(this.state.cityQueryString);
+    }
+
   render() {
 
     const data = this.state.data;
@@ -85,12 +98,12 @@ class App extends Component {
             style = {this.renderBackgroundImage()}
             >
                 <div className="gradient">
-                    <Header/>
+                    <Header toggleUnits = {()=>{this.toggleUnits()}}/>
                     <div className="content-container">
                         <Title city = {data.name}/>
                         <WeatherMain temperature = {data.main.temp} weather = {data.weather[0]}/>
                         <hr/>
-                        <WeatherDetails/>
+                        <WeatherDetails data = {data}/>
                     </div>
                 </div>
           </div>

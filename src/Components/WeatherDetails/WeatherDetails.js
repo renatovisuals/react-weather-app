@@ -1,36 +1,36 @@
 import React, {Component} from 'react';
 import './weather-details.css';
 
-class WeatherDetails extends Component {
+const WeatherDetails = (props) => {
+        const data = props.data;
+        const details = [
+                      {
+                        fontAwesome:false,
+                        icon: 'wi wi-humidity',
+                        description: 'Humidity',
+                        data:`${data.main.humidity}%`
+                      },
+                      {
+                        fontAwesome:false,
+                        icon: 'wi wi-horizon-alt',
+                        description: 'Visibility',
+                        data: `${Math.floor(data.visibility/1609)} mi`
+                      },
+                      {
+                        fontAwesome:false,
+                        icon: 'wi wi-gale-warning',
+                        description: 'Wind Speed',
+                        data: `${Math.floor(data.wind.speed)} mph`
+                      }
+                  ]
 
-    state = {
-        details: [
-            {
-              fontAwesome:false,
-              icon: 'wi wi-humidity',
-              description: 'humidity',
-              data: "20%"
-            },
-            {
-              fontAwesome:false,
-              icon: 'wi wi-humidity',
-              description: 'humidity',
-              data: "20%"
-            },
-            {
-              fontAwesome:false,
-              icon: 'wi wi-humidity',
-              description: 'humidity',
-              data: "20%"
-            }
-        ]
-    }
 
-    renderWeather = (fontAwesome) =>{
+    const renderWeather = (fontAwesome) =>{
+
 
         return (
             !fontAwesome ?
-            this.state.details.map((item,i) =>(
+            details.map((item,i) =>(
                 <div key={i}>
                   <i className={item.icon}></i>
                   <span className="description">{item.description}</span>
@@ -41,14 +41,14 @@ class WeatherDetails extends Component {
         )
     }
 
-    render(){
+
       return (
         <div className="weather-details">
-            {this.renderWeather(false)}
+            {renderWeather(false)}
         </div>
 
       )
-    }
+
 
 }
 
