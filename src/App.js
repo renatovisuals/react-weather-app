@@ -9,35 +9,61 @@ import './app.css';
 class App extends Component {
 
     state = {
-        data:null,
+        data:'',
         cityQueryString:'',
         backgroundImage:'',
-        units:'imperial'
+        units:'imperial',
+        loading:true,
+        error:false
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this.loadHomeCityWeather();
     }
 
-    loadHomeCityWeather = () => {
-      fetch("https://ipapi.co/json")
-      .then((response)=>response.json())
-      .then((data)=>{
-        const cityString = this.setCityString(data.city)
-        this.getWeatherData(cityString);
+
+    handleError = (error) => {
         this.setState({
-          cityQueryString:cityString
+            error
         })
-      })
     }
 
-    getWeatherData = (cityString) => {
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityString}&units=${this.state.units}&APPID=${USERID}`)
-      .then((response)=>response.json())
-      .then((data)=> {this.setState({data:data})
-      console.log(this.state);
-      })
+
+    loadHomeCityWeather = () => {
+        fetch("https://ipapi.co/json")
+        .then((response)=>response.json())
+        .then((data)=>{
+          const cityString = this.setCityString(data.city)
+          this.setState({
+            cityQueryString:cityString
+          })
+        },()=>this.getWeatherData())
     }
+
+    getWeatherData = () => {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.state.cityQueryString}&units=${this.state.units}&APPID=${USERID}`)
+        .then((response)=>{
+            if(response.ok){
+                return response.json()
+            } else {
+              throw Error('Invalid City Was Entered');
+            }
+          })
+        .then((weather)=> {
+            this.setState({
+                data:weather,
+                loading:false
+              },() => {console.log("this is the new state", this.state)})
+
+        })
+        .catch((err)=>{
+              this.setState({
+                error:true
+              },()=>{this.handleError(true)})
+        })
+      }
+
+
 
     setCityString = (string) => {
         string = string.trim();
@@ -47,6 +73,11 @@ class App extends Component {
             newString[i]="+";
           }
         }
+        this.setState({
+          cityQueryString: newString.join("")
+        },() => {
+          this.getWeatherData()
+        })
         return newString.join("");
     }
 
@@ -70,8 +101,6 @@ class App extends Component {
             url += "clouds.jpg";
         }
 
-        console.log(url);
-
         return {
           'backgroundImage':`url("${url}")`,
           'backgroundSize':"cover",
@@ -83,27 +112,28 @@ class App extends Component {
        let units = this.state.units;
        units === "imperial" ? units = "metric" : units = "imperial";
        this.setState({
-         units
-       })
-       this.getWeatherData(this.state.cityQueryString);
+         units:units
+       },() => {this.getWeatherData()})
+
     }
 
   render() {
 
     const data = this.state.data;
-    if(!this.state.data){return null};
-    this.renderBackgroundImage()
+
+    if(this.state.loading){return <div className = "loader"> Loading... </div>};
+
     return (
           <div className = "app"
             style = {this.renderBackgroundImage()}
             >
                 <div className="gradient">
-                    <Header toggleUnits = {()=>{this.toggleUnits()}}/>
+                    <Header toggleUnits = {()=>{this.toggleUnits()}} data = {{...this.state}} updateCity = {this.setCityString} handleError = {this.handleError} />
                     <div className="content-container">
                         <Title city = {data.name}/>
                         <WeatherMain temperature = {data.main.temp} weather = {data.weather[0]}/>
                         <hr/>
-                        <WeatherDetails data = {data}/>
+                        <WeatherDetails data = {data} units = {this.state.units}/>
                     </div>
                 </div>
           </div>

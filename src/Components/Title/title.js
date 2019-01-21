@@ -9,7 +9,7 @@ const Title = (props) => {
             month:['January','February','March','April','May','June','July','August','September','October','November','December'],
             day:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
         }
-        return `${dates.day[date.getDay()]} ${date.getUTCDate()} ${dates.month[date.getMonth()]} ${date.getFullYear()}`
+        return `${dates.day[date.getDay()]} ${date.getDate()} ${dates.month[date.getMonth()]} ${date.getFullYear()}`
     }
 
     return (
